@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>hw62</title>
+    <style>
+        .tb{
+            border: 2px solid black;
+        }
+        tr,
+        td,
+        th {
+            border: 2px solid black;
+        }
+    </style>
+</head>
+
+<body>
+    <table class="tb"></table>
+
+    <script>
+        const tb = document.querySelector(".tb");
+        fetch('https://bank.gov.ua/NBUStatService/v1/statdirectory/exchange?json')
+            .then((rates) => rates.json())
+            .then((json) => {
+                return json.filter((money) => money.rate >= 25);
+            })
+            .then((rates) => {
+                rates.map((money) =>
+                tb.innerHTML += `
+                    <tr>
+                        <td>${money.txt}</td>
+                        <td>${money.cc}</td>
+                        <td>${money.rate}</td>
+                        <td>${money.exchangedate}</td>
+                    </tr>
+                `
+                );
+
+            })
+            .catch(error => {;
+                    console.log(error.message);
+            });
+            
+    </script>
+</body>
+
+</html>
